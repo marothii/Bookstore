@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE-edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://use.fontawesome.com/be1ba39dfe.js"></script>
+        <link rel="stylesheet" th:href="@{/css/layout.css}">
+        <link rel="stylesheet" th:href="@{/css/catalogue.css}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    </head>
+    <body>
+        <div class="catalogue-page-content">
+            <section>
+                <header th:replace="~{layout::header}"></header>
+            </section>
+            <section>
+                <div class="page-title-container">
+                    <h1 class="page-title"> </h1>
+                </div>
+                <div th:replace="~{layout::catalogue-navbar}"></div>
+            </section>
+            <section>
+                <div th:replace="~{layout::search-results}"></div>
+            </section>
+            <section class="section-body">
+                <div class="gallery-main">
+                    <!-- Adventure -->
+                    <div class="Adventure" id="Adventure">
+                       <h2>Adventure <i class="fas fa-book-open-reader" style="color: #9a2aa2; cursor: pointer;" onclick="navigateToGenre('adventure')"></i></h2>
+                        <div class="gallery">
+                            <div class="image-holder" th:each="book : ${adventureBooks}">
+                                <a th:href="@{/description(title=${book.title}, author=${book.author})}">
+                                    <img th:src="${book.coverImageUrl}" alt="book cover">
+                                </a>
+                                <div class="desc">
+                                    <h3 th:text="${book.title}"></h3>
+                                    <p th:text="${book.author}"></p>
+                                    <p th:text="'$' + ${book.price}"></p>
+                                    <button class="wishlist-button"
+                                            th:book-title="${book.title}"
+                                            th:book-thumbnail="${book.coverImageUrl}"
+                                            th:book-price="${book.price}"
+                                            onclick="addToWishlist(this.getAttribute('book-title'),
+                                                this.getAttribute('book-thumbnail'),
+                                                this.getAttribute('book-price'));">
+                                        <i class="fas fa-heart" aria-hidden="true"></i>
+                                    </button>
+                                    <button
+                                            th:book-title="${book.title}"
+                                            th:book-thumbnail="${book.coverImageUrl}"
+                                            th:book-price="${book.price}"
+                                            onclick="addToCart(this.getAttribute('book-title'),
+                                                this.getAttribute('book-thumbnail'),
+                                                this.getAttribute('book-price'));">
+                                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fantasy -->
+                    <div class="Fantasy" id="Fantasy">
+                        <h2>Fantasy <i class="fas fa-book-open-reader" style="color: #9a2aa2; cursor: pointer;" onclick="navigateToGenre('fantasy')"></i></h2>
+                        <div class="gallery">
+                            <div class="image-holder" th:each="book : ${fantasyBooks}">
+                                <a th:href="@{/description(title=${book.title}, author=${book.author})}">
+                                    <img th:src="${book.coverImageUrl}" alt="book cover">
+                                </a>
+                                <div class="desc">
+                                    <h3 th:text="${book.title}"></h3>
+                                    <p th:text="${book.author}"></p>
+                                    <p th:text="'$' + ${book.price}"></p>
+                                    <button class="wishlist-button"
+                                            th:book-title="${book.title}"
+                                            th:book-thumbnail="${book.coverImageUrl}"
+                                            th:book-price="${book.price}"
+                                            onclick="addToWishlist(this.getAttribute('book-title'),
+                                                this.getAttribute('book-thumbnail'),
+                                                this.getAttribute('book-price'));">
+                                        <i class="fas fa-heart" aria-hidden="true"></i>
+                                    </button>
+                                    <button
+                                            th:book-title="${book.title}"
+                                            th:book-thumbnail="${book.coverImageUrl}"
+                                            th:book-price="${book.price}"
+                                            onclick="addToCart(this.getAttribute('book-title'),
+                                                this.getAttribute('book-thumbnail'),
+                                                this.getAttribute('book-price'));">
+                                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fiction -->
+                    <div class="Fiction" id="Fiction">
+                        <h2>Fiction <i class="fas fa-book-open-reader" style="color: #9a2aa2; cursor: pointer;" onclick="navigateToGenre('thriller')"></i></h2>
+                        <div class="gallery">
+                            <div class="image-holder" th:each="book : ${fictionBooks}">
+                                <a th:href="@{/description(title=${book.title}, author=${book.author})}">
+                                    <img th:src="${book.coverImageUrl}" alt="book cover">
+                                </a>
+                                <div class="desc">
+                                    <h3 th:text="${book.title}"></h3>
+                                    <p th:text="${book.author}"></p>
+                                    <p th:text="'$' + ${book.price}"></p>
+                                    <button class="wishlist-button"
+                                            th:book-title="${book.title}"
+                                            th:book-thumbnail="${book.coverImageUrl}"
+                                            th:book-price="${book.price}"
+                                            onclick="addToWishlist(this.getAttribute('book-title'),
+                                                this.getAttribute('book-thumbnail'),
+                                                this.getAttribute('book-price'));">
+                                        <i class="fas fa-heart" aria-hidden="true"></i>
+                                    </button>
+                                    <button
+                                            th:book-title="${book.title}"
+                                            th:book-thumbnail="${book.coverImageUrl}"
+                                            th:book-price="${book.price}"
+                                            onclick="addToCart(this.getAttribute('book-title'),
+                                                this.getAttribute('book-thumbnail'),
+                                                this.getAttribute('book-price'));">
+                                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Biography -->
+                    <div class="Biography" id="Biography">
+                        <h2>Biography <i class="fas fa-book-open-reader" style="color: #9a2aa2; cursor: pointer;" onclick="navigateToGenre('biography')"></i></h2>
+                        <div class="gallery">
+                            <div class="image-holder" th:each="book : ${biographyBooks}">
+                                <a th:href="@{/description(title=${book.title}, author=${book.author})}">
+                                    <img th:src="${book.coverImageUrl}" alt="book cover">
+                                </a>
+                                <div class="desc">
+                                    <h3 th:text="${book.title}"></h3>
+                                    <p th:text="${book.author}"></p>
+                                    <p th:text="'$' + ${book.price}"></p>
+                                    <button class="wishlist-button"
+                                            th:book-title="${book.title}"
+                                            th:book-thumbnail="${book.coverImageUrl}"
+                                            th:book-price="${book.price}"
+                                            onclick="addToWishlist(this.getAttribute('book-title'),
+                                                this.getAttribute('book-thumbnail'),
+                                                this.getAttribute('book-price'));">
+                                        <i class="fas fa-heart" aria-hidden="true"></i>
+                                    </button>
+                                    <button
+                                            th:book-title="${book.title}"
+                                            th:book-thumbnail="${book.coverImageUrl}"
+                                            th:book-price="${book.price}"
+                                            onclick="addToCart(this.getAttribute('book-title'),
+                                                this.getAttribute('book-thumbnail'),
+                                                this.getAttribute('book-price'));">
+                                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Romance -->
+                    <div class="Romance" id="Romance">
+                        <h2>Romance <i class="fas fa-book-open-reader" style="color: #9a2aa2; cursor: pointer;" onclick="navigateToGenre('romance')"></i></h2>
+                        <div class="gallery">
+                            <div class="image-holder" th:each="book : ${romanceBooks}">
+                                <a th:href="@{/description(title=${book.title}, author=${book.author})}">
+                                    <img th:src="${book.coverImageUrl}" alt="book cover">
+                                </a>
+                                <div class="desc">
+                                    <h3 th:text="${book.title}"></h3>
+                                    <p th:text="${book.author}"></p>
+                                    <p th:text="'$' + ${book.price}"></p>
+                                    <button class="wishlist-button"
+                                            th:book-title="${book.title}"
+                                            th:book-thumbnail="${book.coverImageUrl}"
+                                            th:book-price="${book.price}"
+                                            onclick="addToWishlist(this.getAttribute('book-title'),
+                                                this.getAttribute('book-thumbnail'),
+                                                this.getAttribute('book-price'));">
+                                        <i class="fas fa-heart" aria-hidden="true"></i>
+                                    </button>
+                                    <button
+                                            th:book-title="${book.title}"
+                                            th:book-thumbnail="${book.coverImageUrl}"
+                                            th:book-price="${book.price}"
+                                            onclick="addToCart(this.getAttribute('book-title'),
+                                                this.getAttribute('book-thumbnail'),
+                                                this.getAttribute('book-price'));">
+                                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cooking -->
+                    <div class="Cooking" id="Cooking">
+                        <h2>Cooking <i class="fas fa-book-open-reader" style="color: #9a2aa2; cursor: pointer;" onclick="navigateToGenre('cooking')"></i></h2>
+                        <div class="gallery">
+                            <div class="image-holder" th:each="book : ${cookingBooks}">
+                                <a th:href="@{/description(title=${book.title}, author=${book.author})}">
+                                    <img th:src="${book.coverImageUrl}" alt="book cover">
+                                </a>
+                                <div class="desc">
+                                    <h3 th:text="${book.title}"></h3>
+                                    <p th:text="${book.author}"></p>
+                                    <p th:text="'$' + ${book.price}"></p>
+                                    <button class="wishlist-button"
+                                            th:book-title="${book.title}"
+                                            th:book-thumbnail="${book.coverImageUrl}"
+                                            th:book-price="${book.price}"
+                                            onclick="addToWishlist(this.getAttribute('book-title'),
+                                                this.getAttribute('book-thumbnail'),
+                                                this.getAttribute('book-price'));">
+                                        <i class="fas fa-heart" aria-hidden="true"></i>
+                                    </button>
+                                    <button
+                                            th:book-title="${book.title}"
+                                            th:book-thumbnail="${book.coverImageUrl}"
+                                            th:book-price="${book.price}"
+                                            onclick="addToCart(this.getAttribute('book-title'),
+                                                this.getAttribute('book-thumbnail'),
+                                                this.getAttribute('book-price'));">
+                                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Comedy -->
+                    <div class="Comedy" id="Comedy">
+                        <h2>Comedy <i class="fas fa-book-open-reader" style="color: #9a2aa2; cursor: pointer;" onclick="navigateToGenre('comedy')"></i></h2>
+                        <div class="gallery">
+                            <div class="image-holder" th:each="book : ${comedyBooks}">
+                                <a th:href="@{/description(title=${book.title}, author=${book.author})}">
+                                    <img th:src="${book.coverImageUrl}" alt="book cover">
+                                </a>
+                                <div class="desc">
+                                    <h3 th:text="${book.title}"></h3>
+                                    <p th:text="${book.author}"></p>
+                                    <p th:text="'$' + ${book.price}"></p>
+                                    <button class="wishlist-button"
+                                            th:book-title="${book.title}"
+                                            th:book-thumbnail="${book.coverImageUrl}"
+                                            th:book-price="${book.price}"
+                                            onclick="addToWishlist(this.getAttribute('book-title'),
+                                                this.getAttribute('book-thumbnail'),
+                                                this.getAttribute('book-price'));">
+                                        <i class="fas fa-heart" aria-hidden="true"></i>
+                                    </button>
+                                    <button
+                                            th:book-title="${book.title}"
+                                            th:book-thumbnail="${book.coverImageUrl}"
+                                            th:book-price="${book.price}"
+                                            onclick="addToCart(this.getAttribute('book-title'),
+                                                this.getAttribute('book-thumbnail'),
+                                                this.getAttribute('book-price'));">
+                                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- History -->
+                    <div class="History" id="History">
+                        <h2>History <i class="fas fa-book-open-reader" style="color: #9a2aa2; cursor: pointer;" onclick="navigateToGenre('history')"></i></h2>
+                        <div class="gallery">
+                            <div class="image-holder" th:each="book : ${historyBooks}">
+                                <a th:href="@{/description(title=${book.title}, author=${book.author})}">
+                                    <img th:src="${book.coverImageUrl}" alt="book cover">
+                                </a>
+                                <div class="desc">
+                                    <h3 th:text="${book.title}"></h3>
+                                    <p th:text="${book.author}"></p>
+                                    <p th:text="'$' + ${book.price}"></p>
+                                    <button class="wishlist-button"
+                                            th:book-title="${book.title}"
+                                            th:book-thumbnail="${book.coverImageUrl}"
+                                            th:book-price="${book.price}"
+                                            onclick="addToWishlist(this.getAttribute('book-title'),
+                                                this.getAttribute('book-thumbnail'),
+                                                this.getAttribute('book-price'));">
+                                        <i class="fas fa-heart" aria-hidden="true"></i>
+                                    </button>
+                                    <button
+                                            th:book-title="${book.title}"
+                                            th:book-thumbnail="${book.coverImageUrl}"
+                                            th:book-price="${book.price}"
+                                            onclick="addToCart(this.getAttribute('book-title'),
+                                                this.getAttribute('book-thumbnail'),
+                                                this.getAttribute('book-price'));">
+                                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <div id="overlay" class="overlay"></div>
+                <div class="btn">
+                    <a th:href="@{/catalogue}">Back <i class="fa fa-arrow-right"></i></a>
+                </div>
+            </section>
+            <section>
+                <footer th:replace="~{layout::footer}"></footer>
+            </section>
+        </div>
+    </body>
+    <script>
+        function toggleNav() {
+            const navPopup = document.getElementById('nav-popup');
+            const navbarContainer = document.getElementById('navbar-container');
+            if (navPopup.style.width === '0px' || navPopup.style.width === '') {
+                // Show the navigation bar
+                navPopup.style.width = '250px';
+                navPopup.style.left = '0';
+                navbarContainer.style.left = '0';
+            } else {
+                // Hide the navigation bar
+                navPopup.style.width = '0';
+                navPopup.style.left = '-250px';
+                navbarContainer.style.left = '-250px';
+            }
+        }
+
+        function toggleSearch() {
+            const searchInput = document.getElementById('searchInput');
+
+            if (searchInput.style.display === '' || searchInput.style.display === 'none') {
+                searchInput.style.display = 'block';
+            } else {
+                searchInput.style.display = 'none';
+            }
+        }
+
+        window.onload = displayCart;
+
+        function addToWishlist(title, coverImageUrl, price) {
+            let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+
+            if (!wishlist.includes(title)) {
+                const wishItem = {title, coverImageUrl,price};
+                wishlist.push(wishItem);
+                localStorage.setItem('wishlist', JSON.stringify(wishlist));
+                showNotification('Added to wishlist!');
+                console.log("Book saved to wishlist!");
+
+            } else {
+                alert('This book is already in your wishlist.');
+            }
+        }
+
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.textContent = message;
+
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                document.body.removeChild(notification);
+            }, 2500);
+        }
+
+        function showSubscribeNotification(message) {
+            const inputValue = document.getElementById('subscribe-input').value.trim();
+
+            if (inputValue !== '') {
+                const notification = document.createElement('div');
+                notification.className = 'notification';
+                notification.textContent = message;
+
+                document.body.appendChild(notification);
+
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 2500);
+            }
+        }
+
+        function addToCart(title, coverImageUrl, price) {
+
+            if (localStorage.getItem('freshStart')) {
+                // If it's the first run, clear the cart
+                localStorage.clear();
+
+                // Set the 'freshStart' flag to true
+                localStorage.setItem('freshStart', 'true');
+            }
+
+            // Retrieve the existing cart items
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+            // Check if the item is already in the cart
+            const existingItem = cart.find(item => item.title === title);
+
+            if (!existingItem) {
+                // If it's a new item, add it to the cart
+                const item = { title, coverImageUrl, price };
+                cart.push(item);
+            }
+
+            // Store the updated cart back in local storage
+            localStorage.setItem('cart', JSON.stringify(cart));
+
+            // Display the cart
+            displayCart();
+        }
+
+        function displayCart() {
+            const cartItemsContainer = document.getElementById('cart-items-container');
+            const totalElement = document.getElementById('total-element');
+
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let totalPrice = 0;
+
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<p>You have no books in your cart</p> ';
+            } else {
+                cartItemsContainer.innerHTML = ''; // Clear previous items
+                cart.forEach((item, index) => {
+                    const cartItem = document.createElement('div');
+                    cartItem.innerHTML = `
+                        <span>${index + 1}.</span>
+                        <img src="${item.coverImageUrl}" alt="Book Cover">
+                        <span>${item.title}</span>
+                        <span>$${item.price}</span>
+                        <span class="cancel-button" onclick="removeFromCart(${index})">X</span>
+                    `;
+                    totalPrice += parseFloat(item.price);
+                    cartItemsContainer.appendChild(cartItem);
+                });
+            }
+
+            totalElement.textContent = `Total Price: $${totalPrice.toFixed(2)}`;
+
+            // Show the cart-popup
+            showCartPopup();
+        }
+
+        function removeFromCart(index) {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart.splice(index, 1);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            displayCart();
+        }
+
+        function toggleCartPopup() {
+            const cartPopup = document.getElementById('cart-popup');
+            const overlay = document.getElementById('overlay');
+            if (cartPopup.style.width === '0px' || cartPopup.style.width === '') {
+                // Show the cart pop-up bar
+                cartPopup.style.width = '450px';
+                overlay.style.display = 'block';
+            } else {
+                // Hide the cart pop-up bar
+                const cartPopup = document.getElementById('cart-popup');
+                const overlay = document.getElementById('overlay'); // Get the overlay element
+                cartPopup.style.width = '0';
+                overlay.style.display = 'none';
+            }
+        }
+
+        function showCartPopup() {
+            console.log('showCartPopup() function is triggered');
+            const cartPopup = document.getElementById('cart-popup');
+            const overlay = document.getElementById('overlay'); // Get the overlay element
+            cartPopup.style.width = '450px';
+            overlay.style.display = 'block'; // Hide the overlay
+        }
+
+        function hideCartPopup() {
+            console.log('hideCartPopup() function is triggered');
+            const cartPopup = document.getElementById('cart-popup');
+            const overlay = document.getElementById('overlay'); // Get the overlay element
+            cartPopup.style.width = '0';
+            overlay.style.display = 'none'; // Hide the overlay
+        }
+
+        function checkout() {
+            console.log('checkout() function is triggered');
+            window.location.href = '/checkout';
+        }
+
+        function searchBooks() {
+            const catalogueSection = document.querySelector('.section-body');
+            const searchInput = document.getElementById('searchInput').value;
+
+            $.ajax({
+                url: 'https://www.googleapis.com/books/v1/volumes',
+                method: 'GET',
+                data: { q: searchInput, maxResults: 40},
+                success: function (data) {
+                    catalogueSection.style.display = 'none';
+                    displaySearchResults(data);
+                },
+                error: function (error) {
+                    console.error('Error searching for books:', error);
+                }
+            });
+        }
+
+        function displaySearchResults(results) {
+            const searchResultsContainer = document.querySelector('.search-results');
+            console.log('Results:', results);
+
+            if (results.items && results.items.length === 0) {
+                searchResultsContainer.innerHTML = '<p>No results found</p>';
+            } else if (results.items) {
+                searchResultsContainer.innerHTML = '';
+
+                results.items.forEach((item) => {
+                    if (item.accessInfo.viewability !== 'NO_PAGES' && item.volumeInfo.authors) {
+                        const resultBlock = document.createElement('div');
+                        resultBlock.classList.add('search-result');
+                        searchResultsContainer.appendChild(resultBlock);
+
+                        const thumbnail = item.volumeInfo.imageLinks ? item.volumeInfo.imageLinks.thumbnail : '/images/book-cover-coming-soon.png';
+                        const authors = Array.isArray(item.volumeInfo.authors) ? item.volumeInfo.authors.join(', ') : item.volumeInfo.authors;
+                        const pubDate = item.volumeInfo.publishedDate ? item.volumeInfo.publishedDate : 'Unknown published date'
+
+                        resultBlock.innerHTML = `
+                        <img src="${thumbnail}" alt="Book Cover">
+                        <h3>${item.volumeInfo.title}</h3>
+                        <p id="authors">${authors}</p>
+                        <p>${pubDate}</p>
+                        `;
+
+                        resultBlock.addEventListener('click', function () {
+                            window.location.href = `/description?title=${item.volumeInfo.title}&author=${item.volumeInfo.authors.join(', ')}`;
+                        });
+                    }
+                });
+            }
+        }
+        //
+        function navigateToGenre(genre) {
+            window.location.href = '/catalogue/' + genre;
+        }
+
+        function toggleUserProfilePopup(element) {
+            const popup = document.getElementById('userProfilePopup');
+            popup.style.display = (popup.style.display === 'block') ? 'none' : 'block';
+
+            if (popup.style.display === 'block') {
+                positionPopup(element, popup);
+            }
+        }
+
+        function positionPopup(triggerElement, popupElement) {
+            const triggerRect = triggerElement.getBoundingClientRect();
+
+            popupElement.style.top = `${triggerRect.bottom}px`;
+            popupElement.style.left = `${triggerRect.left}px`;
+        }
+
+        function navigateTo(url) {
+            window.location.href = url;
+        }
+
+        function logout() {
+            window.location.href = '/logout';
+        }
+    </script>
+</html>

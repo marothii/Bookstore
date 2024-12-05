@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:type="text/css" th:href="@{/css/layout.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+<body>
+<header th:fragment="header">
+    <nav class="header-nav">
+        <div th:fragment="logo" class="logo">
+            <a th:href="@{/}">
+                <img th:href="@{/}" th:src="@{/images/logo.png}" />
+            </a>
+        </div>
+        <ul>
+            <li><a th:href="@{/index}">Home</a></li>
+            <li><a th:href="@{/catalogue}">Catalogue</a></li>
+        </ul>
+        <div class="cart-container">
+            <i class="fas fa-shopping-cart" id="cart-btn" onclick="toggleCartPopup()"></i>
+            <div class="cart-popup" id="cart-popup">
+                <div class="cart-popup-content">
+                    <h2>Shopping Cart</h2>
+                    <div id="cart-items-container">
+                        <!--   cart-items   -->
+                    </div>
+                    <div id="total-element">Total Price: </div>
+                    <a class="checkout-a" th:href="@{/catalogue}" onclick="hideCartPopup()">Continue shopping</a>
+                    <button class="checkout-button" th:href="@{/checkout}" onclick="checkout()">Checkout</button>
+                </div>
+            </div>
+        </div>
+        <div th:if="${session['loggedIn'] != null}" class="user-profile" onclick="toggleUserProfilePopup(this)">
+            <img th:src="@{/images/profile-icon.png}" alt="Profile Icon" />
+            <span th:text="${session['username']}"></span>
+        </div>
+        <div th:if="${session['loggedIn'] != null}" id="userProfilePopup" class="popup">
+            <div class="popup-content">
+                <ul>
+                    <li onclick="navigateTo('/index/my-profile')"><i class="fas fa-user"></i> My Profile</li>
+                    <li onclick="navigateTo('/index/my-orders')"><i class="fas fa-shopping-bag"></i> My Orders</li>
+                    <li onclick="navigateTo('/index/my-wishlist')"><i class="fas fa-heart"></i> My Wishlist</li>
+                    <li onclick="navigateTo('/index/settings')"><i class="fas fa-cog"></i> Settings</li>
+                    <li onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+    <div th:fragment="catalogue-navbar">
+        <div class="catalogue-navbar-container" id="navbar-container">
+            <div class="catalogue-navbar">
+                <i class="fas fa-bars" id="hamburger-menu" onclick="toggleNav()"></i>
+                <div id="nav-popup">
+                    <nav>
+                        <ul>
+                            <li><a href="#Adventure">Adventure</a></li>
+                            <li><a href="#Fantasy">Fantasy</a></li>
+                            <li><a href="#Fiction">Fiction</a></li>
+                            <li><a href="#Biography">Biography</a></li>
+                            <li><a href="#Romance">Romance</a></li>
+                            <li><a href="#Cooking">Cooking</a></li>
+                            <li><a href="#Comedy">Comedy</a></li>
+                            <li><a href="#History">History</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="search-section">
+                    <i class="fas fa-search" id="search-icon" onclick="toggleSearch()"></i>
+                    <input type="text" id="searchInput" placeholder="Search for books..." class="search-input">
+                    <button onclick="searchBooks()" class="search-button">Search</button>
+                </div>
+                </div>
+            </div>
+        </div>
+    <div th:fragment="search-results">
+        <div class="search-results" id="searchResults"></div>
+    </div>
+<footer th:fragment="footer" class="sticky-footer">
+    <div class="footer-container">
+        <div class="footer-top-container">
+            <div class="footer-block" id="quick-help">
+                <h3>QUICK HELP</h3>
+                <ul>
+                    <li><a th:href="@{/index/my-orders}">Order Status</a></li>
+                    <li><a th:href="@{/shipping-and-delivery}">Shipping & Delivery</a></li>
+                    <li><a th:href="@{/shipping-and-delivery#returns}">Returns</a></li>
+                </ul>
+            </div>
+            <div class="footer-block" id="company-info">
+                <h3>COMPANY INFO</h3>
+                <ul>
+                    <li><a th:href="@{/about-us}">About Us</a></li>
+                    <li><a th:href="@{/terms-of-use}">Terms of Use</a></li>
+                    <li><a th:href="@{/privacy-policy}">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-block" id="contact-info">
+                <h3>CONTACT INFORMATION</h3>
+                <ul class="box">
+                    <li><a href="#">4028 Debrecen, Kassai út 26</a></li>
+                    <li><a href="#">(06 52) 512 900</a></li>
+                    <li><a href="#">support@bookhaven.com</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="subscribe-container">
+            <span class="subscribe-text">Subscribe to our newsletter for daily updates</span>
+            <ul class="box input-box">
+                <li><input type="text" placeholder="Enter your email" id="subscribe-input"></li>
+                <li><input type="button" value="Subscribe" id="subscribe-button" onclick="showSubscribeNotification('Subscribed successfully!')"></li>
+            </ul>
+        </div>
+        <div class="bottom-details">
+            <div class="bottom_text">
+                <span class="copyright_text">Copyright &#169; 2023 <a href="#">BookHaven</a>. All rights reserved</span>
+            </div>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>

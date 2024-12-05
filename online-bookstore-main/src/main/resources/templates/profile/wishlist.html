@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Profile Information</title>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"/>
+        <link rel="stylesheet" href="/css/wishlist.css" />
+    </head>
+    <body>
+        <div class="container">
+            <div class="leftbox">
+                <nav>
+                    <a onclick="navigateTo('/index/my-profile')">
+                        <i class="fa fa-user"></i> Profile Information
+                    </a>
+                    <a onclick="navigateTo('/index/my-orders')">
+                        <i class="fa fa-store"></i> Orders
+                    </a>
+                    <a href="#" class="active">
+                        <i class="fa fa-heart"></i> Wish List
+                    </a>
+                    <a onclick="navigateTo('/index/settings')">
+                        <i class="fa fa-gear"></i> Settings
+                    </a>
+                    <a onclick="logout()">
+                        <i class="fa-solid fa-right-from-bracket"></i> Log Out
+                    </a>
+                </nav>
+            </div>
+
+            <div class="rightbox">
+                <div class="orders">
+                    <h1>Wish List</h1>
+                </div>
+                <div class="wishlist-container">
+                    <!-- Wishlist items -->
+                </div>
+            </div>
+            <div class="home-button">
+                <button class="btn" onclick="navigateTo('/index')">HOME</button>
+            </div>
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                displayWishlist();
+            });
+            function displayWishlist() {
+                const wishlistContainer = document.querySelector('.wishlist-container');
+
+                const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+                let wishlistHTML = '';
+
+                if (wishlist.length === 0) {
+                    wishlistContainer.innerHTML = '<p style="text-align: center">Your wishlist is empty</p>';
+                } else {
+                    wishlist.forEach((item, index) => {
+                        const wishlistItem = document.createElement('div');
+                        wishlistItem.classList.add('wishlist-item');
+                        wishlistItem.innerHTML = `
+                            <span>${index + 1}.</span>
+                            <img src="${item.coverImageUrl}" alt="Book Cover">
+                            <span>${item.title}</span>
+                            <span>$${item.price}</span>
+                            <button class="remove-button" onclick="removeFromWishlist(${index})">Remove</button>
+                            <button class="add-to-cart-button" onclick="addToCart('${item.title}', '${item.coverImageUrl}','${item.price}')">Add to Cart</button>
+                         `;
+                        wishlistHTML += wishlistItem.outerHTML;
+                    });
+
+                    wishlistContainer.innerHTML = wishlistHTML;
+                }
+            }
+
+            function addToCart(title, coverImageUrl, price) {
+
+                if (localStorage.getItem('freshStart')) {
+                    // If it's the first run, clear the cart
+                    localStorage.clear();
+
+                    // Set the 'freshStart' flag to true
+                    localStorage.setItem('freshStart', 'true');
+                }
+
+                // Retrieve the existing cart items
+                let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+                // Check if the item is already in the cart
+                const existingItem = cart.find(item => item.title === title);
+
+                if (!existingItem) {
+                    // If it's a new item, add it to the cart
+                    const item = { title, coverImageUrl, price };
+                    cart.push(item);
+                }
+
+                // Store the updated cart back in local storage
+                localStorage.setItem('cart', JSON.stringify(cart));
+            }
+
+            function removeFromWishlist(index) {
+                const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+                wishlist.splice(index, 1);
+                localStorage.setItem('wishlist', JSON.stringify(wishlist));
+                displayWishlist();
+            }
+
+            function navigateTo(url) {
+                window.location.href = url;
+            }
+            function logout() {
+                window.location.href = '/logout';
+            }
+
+        </script>
+    </body>
+</html>
+        
+              
+      

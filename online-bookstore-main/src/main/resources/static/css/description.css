@@ -1,0 +1,105 @@
+/* DESCRIPTION PAGE STYLES */
+
+.description-page-content {
+    margin: 0;
+    position: relative;
+    padding: 0 0 170px;
+}
+
+.description-container {
+    text-align: center;
+    margin: 20px auto;
+    max-width: 600px;
+}
+
+.description-title {
+    color: #333;
+    font-size: 30px;
+    margin: 110px 0 20px;
+}
+
+.description-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.book-info img {
+    max-width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+
+.book-info p {
+    font-size: 20px;
+    color: #666;
+    margin: 10px 0;
+}
+
+.book-info button {
+    background-color: #A437DB;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.book-info button:hover {
+    background-color: #04AA6D;
+}
+
+/* Add or update the CSS in your existing file */
+.user-profile {
+    display: flex;
+    flex-direction: column; /* Adjust the flex direction to column */
+    align-items: center;
+    text-align: center; /* Center the text within the container */
+}
+
+.user-profile img {
+    width: 30px; /* Adjust the width to your preference */
+    height: 30px; /* Adjust the height to your preference */
+    border-radius: 50%;
+    margin-bottom: 4px; /* Adjust the margin to create space between the icon and username */
+}
+
+.user-profile span {
+    font-weight: bold;
+    font-size: 14px; /* Adjust the font size to your preference */
+    color: #333; /* Adjust the color to your preference */
+}
+/*POP UP*/
+.popup {
+    display: none;
+    position: fixed;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    z-index: 1;
+}
+
+.popup-content {
+    padding: 20px;
+}
+
+.popup ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.popup ul li {
+    cursor: pointer;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    text-align: center; /* Center the text */
+}
+
+.popup ul li:last-child {
+    border-bottom: none;
+}
+
+
+
+

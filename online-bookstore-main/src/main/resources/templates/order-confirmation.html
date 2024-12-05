@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post checkout page</title>
+    <link rel="stylesheet" th:href="@{/css/order-confirmation.css}">
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <div th:replace="~{layout::logo}"></div>
+        </div>
+        <div class="invoice">
+            <h3>Your Order was Confirmed!</h3>
+            <span id="dear-customer" class="font-weight-bold d-block mt-4"></span>
+            <span>Your payment was successful, and we're pleased to inform you that your order is on its way and will be delivered soon!</span>
+            <div class="payment table-responsive">
+                <table class="table table-borderless">
+                    <tbody>
+                        <tr>
+                            <td style="width: 25%;">
+                                <span class="d-block text-muted">Order Date:</span>
+                                <br>
+                                <span id="order-date"></span>
+                            </td>
+                            <td style="width: 25%;">
+                                <span class="d-block text-muted">Order No:</span>
+                                <br>
+                                <span id="order-number"></span>
+                            </td>
+                            <td style="width: 25%;">
+                                <span class="d-block text-muted">Payment:</span>
+                                <br>
+                                <span><img src="https://img.icons8.com/color/48/000000/mastercard.png" width="20" /></span>
+                            </td>
+                            <td style="width: 25%;">
+                                <span class="d-block text-muted">Shipping Address:</span>
+                                <br>
+                                <span id="shipping-address"></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="product table-responsive">
+                <table class="table table-borderless">
+                    <tbody id="product-table-body">
+                    <!-- Product details will be dynamically generated here -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="row d-flex justify-content-end">
+                <div class="col-md-5">
+                    <table class="table table-borderless">
+                        <tbody class="totals">
+                            <tr>
+                                <td>
+                                    <span class="text-muted">Subtotal</span>
+                                </td>
+                                <td>
+                                    <span id="subtotal"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="text-muted">Shipping Fee</span>
+                                </td>
+                                <td>
+                                    <span id="shipping-fee"></span>
+                                </td>
+                            </tr>
+                            <tr class="border-top border-bottom">
+                                <td>
+                                    <span class="font-weight-bold">Total</span>
+                                </td>
+                                <td>
+                                    <span class="font-weight-bold" id="total"></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <p class="font-weight-bold mb-0">Thank you for shopping with us and placing your trust in our products.</p>
+            <span>BookHaven Team</span>
+        </div>
+        <div id="redirectModal" class="modal">
+            <div class="modal-content">
+                <p>Redirecting to home page in a few seconds...</p>
+            </div>
+        </div>
+    </div>
+    <script>
+        function redirectToHomePage() {
+            setTimeout(function () {
+                window.location.href = '/index';
+            }, 6000);
+        }
+
+        function sendOrderDetailsToServer(orderDetails) {
+            fetch('/saveOrder', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(orderDetails)
+            })
+            .then(response => {
+                console.log('Response status:', response.status);
+                console.log('Response headers:', response.headers);
+                return response.text();
+            })
+            .then(data => {
+                if (data === 'Order details saved successfully') {
+                    const orderNumber = orderDetails.orderNumber;
+                    localStorage.setItem('orderDetailsSaved', orderNumber);
+                    moveCartToOrderHistory(orderDetails);
+                    sendSmsNotification(orderDetails.phone);
+                    document.dispatchEvent(new CustomEvent('orderDetailsSaved', { detail: orderNumber }));
+                    console.log('Order details saved successfully');
+                } else {
+                    console.error('Error saving order details:', data);
+                }
+            })
+            .catch(error => {
+                console.error('Error saving order details', error);
+            });
+        }
+
+        function moveCartToOrderHistory(orderDetails) {
+
+            // Retrieve the existing order history
+            let orderHistory = JSON.parse(localStorage.getItem('orderHistory')) || [];
+
+            // Retrieve the current cart items
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const orderNumber = orderDetails.orderNumber;
+
+            // Save the cart items to the order history
+            orderHistory.push({
+                orderNumber,
+                items: cart,
+                address: orderDetails.address,
+                city: orderDetails.city,
+                phone: orderDetails.phone,
+            });
+
+            // Clear the current cart
+            localStorage.removeItem('cart');
+
+            // Store the updated order history back in local storage
+            localStorage.setItem('orderHistory', JSON.stringify(orderHistory));
+        }
+
+        function sendSmsNotification(phoneNumber) {
+            fetch('/send-sms', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    phoneNumber: phoneNumber,
+                }),
+            })
+                .then(response => {
+                    console.log('SMS notification response status:', response.status);
+                    console.log('SMS notification response headers:', response.headers);
+                    return response.text();
+                })
+                .then(data => {
+                    console.log('SMS notification response:', data);
+                })
+                .catch(error => {
+                    console.error('Error sending SMS notification:', error);
+                });
+        }
+
+        function displayOrderConfirmation() {
+            const orderInfo = JSON.parse(localStorage.getItem('orderInfo')) || {};
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+            const orderNumber = orderInfo.orderNumber || generateOrderNumber();
+
+            // Display order information
+            document.getElementById('order-date').innerText = new Date().toLocaleDateString();
+            document.getElementById('order-number').innerText = orderNumber;
+            document.getElementById('shipping-address').innerText = orderInfo.address + ', ' + orderInfo.city;
+            document.getElementById('dear-customer').innerText = 'Dear ' + orderInfo.fullName + ',';
+
+
+            // Display product details
+            const productTableBody = document.getElementById('product-table-body');
+            productTableBody.innerHTML = '';
+            cart.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                <td  style="width: 20%"><img src="${item.coverImageUrl}" width="90"></td>
+                <td  style="width: 60%"><span class="font-weight-bold">${item.title}</span></td>
+                <td  style="width: 20%"><div class="text-right"><span class="font-weight-bold">$${item.price}</span></div></td>
+            `;
+                productTableBody.appendChild(row);
+            });
+
+            // Display totals
+            document.getElementById('subtotal').innerText = '$' + calculateSubtotal(cart).toFixed(2);
+            document.getElementById('shipping-fee').innerText = '$3.99';
+            document.getElementById('total').innerText = '$' + calculateTotal(cart).toFixed(2);
+
+            // Create order details object
+            const orderDetails = {
+                orderNumber: orderNumber,
+                username: orderInfo.fullName,
+                itemCount: cart.length,
+                address: orderInfo.address,
+                city: orderInfo.city,
+                phone: orderInfo.phone,
+                // Add any other details you want to store
+            };
+
+            sendOrderDetailsToServer(orderDetails);
+        }
+
+        console.log("window bout to be displayed")
+        window.onload = function () {
+            displayOrderConfirmation();
+            redirectToHomePage();
+        };
+
+        function generateOrderNumber() {
+
+            return 'MT' + Math.floor(Math.random() * 1000000000);
+        }
+
+        function calculateSubtotal(cart) {
+            return cart.reduce((total, item) => total + parseFloat(item.price), 0);
+        }
+
+        function calculateTotal(cart) {
+            return calculateSubtotal(cart) + 3.99; // Assuming a fixed shipping fee
+        }
+
+
+    </script>
+</body>
+</html>

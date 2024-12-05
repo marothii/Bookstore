@@ -1,0 +1,375 @@
+/* GENERAL DESIGNS FOR BODY */
+body {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.index-page-content {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+    position: relative;
+    background-image: url(../images/bg.png);
+    background-size: cover;
+    background-position: center;
+    font-family: sans-serif;
+    box-sizing: border-box;
+}
+
+section {
+    width: 100%;
+    height: 100vh;
+    background-image: url(../images/3.jpg);
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 0 10px #A437DB;
+}
+
+section .main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    top: 45%;
+}
+
+section .main h1 {
+    font-size: 40px;
+}
+
+section .main p {
+    max-width: 700px;
+    text-align: justify;
+    line-height: 22px;
+    margin-top: 20px;
+    font-size: 18px;
+}
+
+.animate-character {
+    text-transform: uppercase;
+    background-image: linear-gradient(
+            -225deg,
+            #ad27f0, #A437DB, #9840c4, #e3bbf7
+    );
+    background-size: auto auto;
+    background-clip: border-box;
+    background-size: 200% auto;
+    color: #fff;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: textclip 2s linear infinite;
+    display: inline-block;
+    font-size: 190px;
+}
+
+@keyframes textclip {
+    to {
+        background-position: 200% center;
+    }
+}
+
+/*    FEATURED BOOKS DIV     */
+
+.featured_books{
+    width: 100%;
+    height: 100vh;
+    padding: 70px 0;
+}
+
+.featured_books h3{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+    font-size: 45px;
+}
+
+.featured_books .featured_book_box{
+    width: 95%;
+    height: 60vh;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    overflow: hidden;
+    overflow-x: scroll;
+}
+
+.featured_books .featured_book_box .featured_book_card{
+    width: 250px;
+    height: 900px;
+    text-align: center;
+    padding: 5px;
+    border: 1px solid #919191;
+    margin: auto 20px;
+}
+
+.featured_books .featured_book_box .featured_book_card:hover{
+    box-shadow: 0 0 5px #A437DB;
+}
+
+.featured_books .featured_book_box .featured_book_card .featured_book_img img{
+    width: 120px;
+    height:150px
+}
+
+.featured_books .featured_book_box .featured_book_card .featured_book_tag h2{
+    margin: 12px;
+}
+
+.featured_books .featured_book_box .featured_book_card .featured_book_tag .writer{
+    color: #919191;
+}
+
+.featured_books .featured_book_box .featured_book_card .featured_book_tag .categories{
+    color: #A437DB;
+    margin-top: 8px;
+}
+
+.featured_books .featured_book_box .featured_book_card .featured_book_tag .book_price{
+    margin-top: 8px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.featured_books .featured_book_box .featured_book_card .featured_book_tag .book_price sub{
+    font-weight: 100;
+    padding: 0 5px;
+}
+
+.featured_books .featured_book_box .featured_book_card .featured_book_tag .f_btn{
+    padding: 8px 20px;
+    border: 2px solid #A437DB;
+    text-decoration: none;
+    color: #000;
+    cursor: pointer;
+}
+
+::-webkit-scrollbar{
+    width: 10px;
+    height: 5px;
+}
+
+::-webkit-scrollbar-track{
+    box-shadow: inset 0 0 8px rgba(0,0,0,0.2);
+}
+
+::-webkit-scrollbar-thumb{
+    background: #A437DB;
+    border-radius: 10px;
+}
+
+/*   SERVICES DIV   */
+
+.services{
+    width: 100%;
+    height: auto;
+    margin: 35px 0;
+}
+
+.services .services_box{
+    width: 95%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-around;
+}
+
+.services .services_box .services_card{
+    text-align: center;
+    width: 310px;
+    height: auto;
+    box-shadow: 0 0 8px #A437DB;
+    padding: 15px 10px;
+}
+
+.services .services_box .services_card i{
+    color: #A437DB;
+    font-size: 45px;
+    margin-bottom: 15px;
+    cursor: pointer;
+}
+
+.services .services_box .services_card h3{
+    margin-bottom: 10px;
+}
+
+/*     REVIEWS DIV    */
+
+.reviews{
+    width: 100%;
+    height: auto;
+}
+
+.reviews h1{
+    text-align: center;
+    font-size: 50px;
+    margin-top: 55px;
+}
+
+.reviews .review_box{
+    width: 95%;
+    height: 50vh;
+    margin: 15px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.reviews .review_box .review_card{
+    width: 400px;
+    height: 320px;
+    box-shadow: 0 0 8px #A437DB;
+    padding: 15px;
+    margin: 0 12px;
+}
+
+.reviews .review_box .review_card i{
+    float: right;
+    font-size: 120px;
+    position: relative;
+    bottom: 20px;
+    color: #eaeaea;
+}
+
+.reviews .review_box .review_card .card_top img{
+    width: 80px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.reviews .review_box .review_card .card p{
+    margin: 10px 0 10px 0;
+    text-align: justify;
+    line-height: 22px;
+}
+
+.reviews .review_box .review_card .card .review_icon i{
+    font-size: 16px;
+    float: left;
+    margin-top: 20px;
+    color: #A437DB;
+    padding: 0 1px;
+}
+
+/* --------------*/
+.icons  div:hover {
+    color: #A437DB;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    z-index: 1;
+}
+
+/* Add or update the CSS in your existing file */
+.user-profile {
+    display: flex;
+    flex-direction: column; /* Adjust the flex direction to column */
+    align-items: center;
+    text-align: center; /* Center the text within the container */
+}
+
+.user-profile img {
+    width: 30px; /* Adjust the width to your preference */
+    height: 30px; /* Adjust the height to your preference */
+    border-radius: 50%;
+    margin-bottom: 4px; /* Adjust the margin to create space between the icon and username */
+}
+
+.user-profile span {
+    font-weight: bold;
+    font-size: 14px; /* Adjust the font size to your preference */
+    color: #333; /* Adjust the color to your preference */
+}
+/*POP UP*/
+.popup {
+    display: none;
+    position: fixed;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    z-index: 1;
+}
+
+.popup-content {
+    padding: 20px;
+}
+
+.popup ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.popup ul li {
+    cursor: pointer;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    text-align: center; /* Center the text */
+}
+
+.popup ul li:last-child {
+    border-bottom: none;
+}
+
+/***    SWIPER BANNER  ***/
+#banner-carousel {
+    width: 100%;
+    margin: 30px auto auto;
+    position: relative;
+}
+
+.swiper-slide {
+    text-align: center;
+    background-color: #f0f0f0;
+}
+
+.swiper-slide img {
+    width:100%;
+    height:300px;
+}
+
+.swiper-pagination {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    text-align: center;
+}
+
+.swiper-pagination-bullet {
+    background-color: rgba(255, 255, 255, 0.5);
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    margin: 0 8px;
+    border-radius: 50%;
+}
+
+.swiper-pagination-bullet-active {
+    background-color: #fff !important;
+}
+
+.swiper-button-next, .swiper-button-prev {
+    top: 45%;
+    transform: translateY(-50%);
+    color: #fff !important;
+    border-radius: 50%;
+    padding: 10px;
+    position: absolute;
+}
+
+.swiper-button-next {
+    right: 0;
+}
+
+.swiper-button-prev {
+    left: 0;
+}
+
+
